@@ -20,9 +20,4 @@ class Product {
     this.type = type;
     this.id = id;
   }
-  calcTotal() {
-    let total =  (this.quantity) * (this.price);
-    console.log(total);
-    return total;
-  }
 }

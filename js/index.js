@@ -1,19 +1,3 @@
-let productList = [];
-let productInCart = [];
-let getData = function () {
-  axios({
-    url: "https://5bd2959ac8f9e400130cb7e9.mockapi.io/api/products",
-    method: "GET",
-  })
-    .then(function (res) {
-      console.log(res);
-      productList = mapData(res.data);
-      renderProduct(productList);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-};
 let mapData = function (data) {
   return data.map((item) => {
     return new Product(
@@ -25,7 +9,7 @@ let mapData = function (data) {
       item.img,
       item.desc,
       item.type,
-      item.id,
+      item.id
     );
   });
 };
@@ -45,7 +29,7 @@ let renderProduct = function (list) {
         <p class="card-text" id=${item.id}>${item.desc}</p>
         <div class="footer_">
           <button onclick=addToCart("${item.id}") class="btn btn-success">Cart</button>
-          <button onclick=showDetail(${item.id}) class="btn btn-primary">Detail</button>
+          <button onclick=showDetail("${item.id}") class="btn btn-primary">Detail</button>
         </div>
       </div>
     </div>
@@ -53,22 +37,41 @@ let renderProduct = function (list) {
   }
   document.getElementById("product-list").innerHTML = productHTML;
 };
-let renderProductInCart = function (list) {
+let renderCart = function (list) {
   let productHTML = "";
+  let total = 0;
   for (const item of list) {
+    total += item.quantity * +item.product.price;
+    let isDisabled = item.quantity === 1 ? "disabled" : "";
     productHTML += `
     <tr>
-    <td><img src=${item.img} /></td>
-    <td>${item.name}</td>
-    <td>${item.price}</td>
-    <td>${item.quantity}</td>
-    <td>${item.calcTotal()}</td>
+    <td><img src=${item.product.img} /></td>
+    <td>${item.product.name}</td>
+    <td>${item.product.price}</td>
+    <td>
+      <button onclick=changeQuantity("${
+        item.product.id
+      }",-1) class="btn btn-success" ${isDisabled}>-</button>
+      <span class="mx-1">
+        ${item.quantity}
+      </span>
+      <button onclick=changeQuantity("${
+        item.product.id
+      }",1) class="btn btn-success">+</button>
+    </td>
+    <td>${item.quantity * +item.product.price}</td>
+    <td>
+      <button onclick=removeProduct("${
+        item.product.id
+      }") class="btn btn-danger">Delete
+      </button>
+    </td>
     </tr>
     `;
   }
   document.getElementById("cart").innerHTML = productHTML;
+  document.getElementById("totalPrice").innerText = total;
 };
-getData();
 let showDetail = function (id) {
   document.getElementById(id).classList.toggle("show_detail");
 };
@@ -82,17 +85,53 @@ let filterPhone = function () {
   renderProduct(selectedList);
 };
 let addToCart = function (id) {
-  let product = productList.find((item) => item.id === id);
-  console.log(product);
-  let newProduct = { ...product, quantity: 1 };
-  for (item of productInCart) {
-    if (item.id === newProduct.id) {
-      item.quantity++;
-      renderProductInCart(productInCart);
+  let returnProduct = productInCart.find((item) => item.product.id === id);
+  if (returnProduct) {
+    returnProduct.quantity++;
+  } else {
+    let product = productList.find((item) => item.id === id);
+    let cartItem = { product: { ...product }, quantity: 1 };
+    productInCart.push(cartItem);
+  }
+  setLocalStorage();
+};
+let changeQuantity = function (id, amount) {
+  for (let item of productInCart) {
+    if (item.product.id === id) {
+      item.quantity += +amount;
+      setLocalStorage();
       return;
     }
   }
-  productInCart.push(newProduct);
-  console.log(newProduct);
-  renderProductInCart(productInCart);
 };
+let setLocalStorage = function () {
+  let dataLocal = JSON.stringify(productInCart);
+  localStorage.setItem("cart", dataLocal);
+  renderCart(productInCart);
+};
+let getLocalStorage = function () {
+  let dataLocal = localStorage.getItem("cart");
+  if (dataLocal) {
+    productInCart = JSON.parse(dataLocal);
+    renderCart(productInCart);
+  }
+};
+let pay = function () {
+  productInCart = [];
+  setLocalStorage();
+};
+let removeProduct = function (id) {
+  productInCart = productInCart.filter((item) => item.product.id !== id);
+  setLocalStorage();
+};
+let productList = [];
+let display = function () {
+  let result = getData();
+  result.then((res) => {
+    productList = mapData(res.data);
+    renderProduct(productList);
+  });
+};
+display();
+let productInCart = [];
+getLocalStorage();

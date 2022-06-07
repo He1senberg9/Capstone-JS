@@ -57,8 +57,10 @@
         </table>
         <div class="footer d-flex justify-content-end align-items-center">
           <p class="m-0 me-3 fs-3">Tổng Tiền:</p>
-          <span class="fs-3">Total</span>
-          <button class="btn btn-primary ms-5 fs-4">Thanh Toán</button>
+          <span id="totalPrice" class="fs-3">Total</span>
+          <button onclick="pay()" class="btn btn-primary ms-5 fs-4">
+            Thanh Toán
+          </button>
         </div>
       </div>
     </div>
@@ -81,6 +83,7 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="./models/Product.js"></script>
+    <script src="./js/api.js"></script>
     <script src="./js/index.js"></script>
   </body>
 </html>
