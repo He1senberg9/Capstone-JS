@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.container_ {
+  max-width: 768px;
+  margin: 0 auto;
+}
+.container_ .col_ .card {
+  height: 100%;
+}
+.card .show_detail {
+  display: block;
+}
+.card-title {
+  height: 3rem;
+}
+.card-text {
+  display: none;
+}
+.show_product .footer_ {
+  display: flex;
+  margin: 1rem 0;
+  justify-content: space-around;
+}
+.show_product .footer_ button {
+  width: 40%;
+}
+.show_cart img {
+  width: 5rem;
+}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Capstone</title>
+    <title>Shopping Cart</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -21,7 +21,47 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy
+    <!-- Show product -->
+    <div class="show_product mb-5">
+      <div class="container_">
+        <h1 class="text-center">Mua Hàng Online</h1>
+        <div class="row" id="product-list"></div>
+      </div>
+    </div>
+    <!-- Select -->
+    <form class="container_">
+      <label for="phone">Chọn loại điện thoại</label>
+      <select name="phone" id="selectPhone" onchange="filterPhone()">
+        <option value="All">All</option>
+        <option value="Iphone">Iphone</option>
+        <option value="Samsung">Samsung</option>
+      </select>
+    </form>
+    <!-- Show cart -->
+    <div class="show_cart">
+      <div class="container_">
+        <h1>Giỏ Hàng</h1>
+        <table class="table align-middle text-center">
+          <thead>
+            <tr>
+              <th>Hình Ảnh</th>
+              <th>Sản Phẩm</th>
+              <th>Giá</th>
+              <th>Số lượng</th>
+              <th>Tổng Cộng</th>
+            </tr>
+          </thead>
+          <tbody id="cart">
+            <tr></tr>
+          </tbody>
+        </table>
+        <div class="footer d-flex justify-content-end align-items-center">
+          <p class="m-0 me-3 fs-3">Tổng Tiền:</p>
+          <span class="fs-3">Total</span>
+          <button class="btn btn-primary ms-5 fs-4">Thanh Toán</button>
+        </div>
+      </div>
+    </div>
     <!-- Bootstrap JavaScript Libraries -->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
@@ -34,5 +74,13 @@
       integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"
+      integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./models/Product.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
